@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/keypad.dart';
+import 'package:intl/intl.dart';
+import 'dart:async';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -10,6 +12,25 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isArmed = false;
   final String correctPassword = "1234";
   String enteredPassword = "";
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _startTimer();
+  }
+
+  void _startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
 
   void armSystem() {
     setState(() {
@@ -24,12 +45,12 @@ class _HomeScreenState extends State<HomeScreen> {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              title: Text('Enter Password to Disarm'),
+              title: const Text('Enter Password to Disarm'),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(enteredPassword.replaceAll(RegExp(r'.'), '*')),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Keypad(
                     onNumberPressed: (number) {
                       setState(() {
@@ -51,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         setState(() {
                           enteredPassword = "";
                         });
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                           content: Text("Incorrect password. Try again."),
                         ));
                       }
@@ -62,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(context, false),
-                  child: Text('Cancel'),
+                  child: const Text('Cancel'),
                 ),
               ],
             );
@@ -94,10 +115,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     onPressed: armSystem,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
-                      shape: CircleBorder(),
-                      padding: EdgeInsets.all(24),
+                      shape: const CircleBorder(),
+                      padding: const EdgeInsets.all(24),
                     ),
-                    child: Column(
+                    child: const Column(
                       children: [
                         Icon(Icons.home, size: 40),
                         Text('ARM STAY'),
@@ -108,10 +129,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     onPressed: armSystem,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
-                      shape: CircleBorder(),
-                      padding: EdgeInsets.all(24),
+                      shape: const CircleBorder(),
+                      padding: const EdgeInsets.all(24),
                     ),
-                    child: Column(
+                    child: const Column(
                       children: [
                         Icon(Icons.directions_run, size: 40),
                         Text('ARM AWAY'),
@@ -128,29 +149,29 @@ class _HomeScreenState extends State<HomeScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(24),
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                 ),
-                child: Text(
+                child: const Text(
                   'DISARM',
                   style: TextStyle(fontSize: 24),
                 ),
               ),
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
             Text(
-              '1:15 PM',
-              style: TextStyle(color: Colors.white, fontSize: 48),
+              DateFormat('jm').format(DateTime.now()),
+              style: const TextStyle(color: Colors.white, fontSize: 48),
             ),
-            SizedBox(height: 8),
-            Text(
+            const SizedBox(height: 8),
+            const Text(
               'Wednesday, January 27',
               style: TextStyle(color: Colors.white, fontSize: 20),
             ),
-            Text(
+            const Text(
               'Carlsbad, CA',
               style: TextStyle(color: Colors.white, fontSize: 20),
             ),
-            SizedBox(height: 20),
-            Row(
+            const SizedBox(height: 20),
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Column(
@@ -185,24 +206,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
                   onPressed: () {},
-                  child: Text('SMART HOME CONTROLS'),
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                  child: const Text('SYSTEM INFO AND USAGE'),
                 ),
                 ElevatedButton(
                   onPressed: () {},
-                  child: Text('SYSTEM INFO AND USAGE'),
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-                ),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: Text('SYSTEM SETTINGS'),
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                  child: const Text('SYSTEM SETTINGS'),
                 ),
               ],
             ),
