@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _startTimer() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {});
+      setState(() {}); // Update time display every second
     });
   }
 
@@ -65,16 +65,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     onEnterPressed: () {
                       if (enteredPassword == correctPassword) {
                         setState(() {
-                        enteredPassword = "";
-                      });
+                          enteredPassword = "";
+                        });
                         Navigator.pop(context, true);
                       } else {
                         setState(() {
                           enteredPassword = "";
                         });
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text("Incorrect password. Try again."),
-                        ));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Incorrect password. Try again."),
+                          ),
+                        );
                       }
                     },
                   ),
@@ -149,7 +151,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(24),
                   ),
-                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 32,
+                    vertical: 16,
+                  ),
                 ),
                 child: const Text(
                   'DISARM',
@@ -158,13 +163,13 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             const SizedBox(height: 40),
             Text(
-              DateFormat('jm').format(DateTime.now()),
+              DateFormat('h:mm:ss a').format(DateTime.now()), // Updated to include seconds
               style: const TextStyle(color: Colors.white, fontSize: 48),
             ),
             const SizedBox(height: 8),
-            const Text(
-              'Wednesday, January 27',
-              style: TextStyle(color: Colors.white, fontSize: 20),
+            Text(
+              DateFormat('EEEE, MMMM d').format(DateTime.now()), // Dynamic date
+              style: const TextStyle(color: Colors.white, fontSize: 20),
             ),
             const Text(
               'Carlsbad, CA',
